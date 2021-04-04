@@ -22,8 +22,12 @@ function MovieCard({ movie, setmoviepage }) {
                 </Card.Body>
                 <Card.Footer>
                     <Link
-                        to={`/movie/${movie.id}`}
-                        render={() => <Moviepage movie={Moviepage} />}
+                        to={{
+                            pathname: `/movie/${movie.id}`,
+                            state: {
+                                movie,
+                            },
+                        }}
                     >
                         <Button variant="primary">Go to see</Button>
                     </Link>

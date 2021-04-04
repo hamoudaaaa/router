@@ -2,13 +2,12 @@ import "./App.css";
 import MyNavbar from "./Components/MyNavbar";
 import MovieList from "./Components/MovieList.js";
 import React, { useState } from "react";
-import AddMovie from "./Components/AddMovie";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+// import AddMovie from "./Components/AddMovie";
+import { Route, Switch } from "react-router-dom";
 import Moviepage from "./Components/Moviepage";
 function App() {
     const [searchRate, setSearchrate] = useState(0);
     const [searchTitle, setsearchTitle] = useState("");
-    const [moviepage, setmoviepge] = useState("");
     const [movies, setMovies] = useState([
         {
             title: "Titanic",
@@ -107,48 +106,30 @@ function App() {
         setSearchrate(input);
     };
 
-    const getnewmovie = (newmovie) => {
-        setMovies([...movies, newmovie]);
-    };
-
+    //   const getnewmovie = (newmovie) => {
+    //     setMovies([...movies, newmovie]);
+    //   };
+    const [moviePage, setMoviePage] = useState({});
     return (
         <div className="App">
-            {/* {console.log(movies)} */}
-            <BrowserRouter>
+            <MyNavbar
+                getsearchRate={getsearchRate}
+                getsearchTitle={getsearchTitle}
+            />
+            <Switch>
                 <Route
+                    exact
                     path="/"
                     render={() => (
-                        <MyNavbar
-                            getsearchRate={getsearchRate}
-                            getsearchTitle={getsearchTitle}
+                        <MovieList
+                            films={movies}
+                            searchRate={searchRate}
+                            searchTitle={searchTitle}
                         />
                     )}
                 />
-
-                {/* <AddMovie getnewmovie={getnewmovie} /> */}
-                <Switch>
-                    <Route
-                        exact
-                        path="/"
-                        render={() => (
-                            <MovieList
-                                films={movies}
-                                searchRate={searchRate}
-                                searchTitle={searchTitle}
-                            />
-                        )}
-                    />
-                    <Route
-                        path="Movie/:id"
-                        render={() => <Moviepage movie={Moviepage} />}
-                    />
-                </Switch>
-                {/* <input
-                value={filters}
-                Placeholder="name of movie"
-                onChange={(e) => setfilters(e.target.value)}
-            /> */}
-            </BrowserRouter>
+                <Route path="/movie/:id" component={Moviepage} />
+            </Switch>
         </div>
     );
 }
